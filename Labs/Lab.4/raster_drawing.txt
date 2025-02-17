@@ -1,1 +1,0 @@
-RasterDrawing(50, 40, shapes=[Rectangle(5, 5, 20, 5), Circle(5, 10, 10), Triangle(5, 5, 10, 5)])

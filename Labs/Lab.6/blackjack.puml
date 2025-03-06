@@ -1,0 +1,81 @@
+@startuml blackjack
+
+class Card {
+    +suit: str
+    +rank: str
+    +value: int
+    +Card(suit: str, rank: str)
+    +get_value(): int
+    +__repr__(): str
+}
+
+class Deck {
+    +num_decks: int
+    +cards: list
+    +plastic_card_position: int
+    +Deck(num_decks: int = 6)
+    -generate_deck(): list
+    +shuffle(): void
+    +draw_card(): Card
+}
+
+class Player {
+    +name: str
+    +chips: int
+    +hand: list
+    +bet: int
+    +won: bool
+    +is_human: bool
+    +Player(name: str, chips: int = 250, is_human: bool = False)
+    +place_bet(amount: int): int
+    +add_money(amount: int): void
+    +receive_card(card: Card): void
+    +show_hand(): list
+    +hand_value(): int
+    +has_busted(): bool
+    +should_hit(dealer: Dealer, players: list): bool
+    +blackjack(): bool
+    +has_21(): bool
+    +payout(profit: int): void
+    +did_win(): bool
+    +print_status(): void
+}
+
+class StrategyPlayer {
+    +threshold: int
+    +diff_strategy: bool
+    +StrategyPlayer(threshold: int = 0, diff_strategy: bool = False)
+    +should_hit(dealer: Dealer, players: list): bool
+}
+
+class Dealer {
+    +Dealer()
+    +should_hit(): bool
+    +print_status(end: bool): void
+    +shown_cards_value(): int
+}
+
+class BlackjackGame {
+    +deck: Deck
+    +dealer: Dealer
+    +players: list
+    +num_players: int
+    +verbose: bool
+    +BlackjackGame(num_players: int, verbose: bool, include_human: bool, include_strategy_player: bool, strat_threshhold: int, diff_strategy: bool)
+    +winner_or_dealer_bust(): void
+    +play_round(): int
+    +compute_strategy_player_winnings(): int
+}
+
+
+Deck --* Card
+Deck  --* Player
+Deck  --*  Dealer
+Player --*  Card
+Dealer --|> Player
+StrategyPlayer --|> Player
+BlackjackGame  --*  Deck
+BlackjackGame  --*  Dealer
+BlackjackGame  --*  Player
+
+@enduml
